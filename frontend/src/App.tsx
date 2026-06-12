@@ -3,9 +3,13 @@ import { LandingPage } from "@/pages/landing-page";
 import { AuthPage } from "@/components/auth-page";
 import { IntakeAppPage } from "@/pages/intake-app-page";
 
+// Strip the trailing slash from Vite's BASE_URL so react-router routes resolve
+// correctly whether the app is served from "/" (dev) or "/<repo>/" (Pages).
+const basename = import.meta.env.BASE_URL.replace(/\/$/, "") || "/"
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />

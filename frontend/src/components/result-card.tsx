@@ -164,7 +164,10 @@ function CopyButton({ text }: { text: string }) {
         }
       }}
     >
-      {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+      <span className="t-icon-swap" data-state={copied ? "b" : "a"}>
+        <Copy className="t-icon size-3.5" data-icon="a" />
+        <Check className="t-icon size-3.5" data-icon="b" />
+      </span>
       {copied ? "Copied" : "Copy"}
     </Button>
   );

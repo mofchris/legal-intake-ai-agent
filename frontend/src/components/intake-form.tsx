@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loader2, AlertCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,6 +57,26 @@ export function IntakeForm({ onResult }: IntakeFormProps) {
   const [form, setForm] = useState<FormState>(EMPTY);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorNonce, setErrorNonce] = useState(0);
+  const alertRef = useRef<HTMLDivElement>(null);
+
+  // Replay the error-state-shake (transitions.dev #12) on every failed attempt,
+  // even when the message text is unchanged. Remove -> reflow -> re-add.
+  useEffect(() => {
+    if (!errorNonce) return;
+    const el = alertRef.current;
+    if (!el) return;
+    el.classList.remove("is-shaking");
+    void el.offsetWidth; // force reflow
+    el.classList.add("is-shaking");
+    const t = setTimeout(() => el.classList.remove("is-shaking"), 320);
+    return () => clearTimeout(t);
+  }, [errorNonce]);
+
+  function fail(message: string) {
+    setError(message);
+    setErrorNonce((n) => n + 1);
+  }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -68,7 +88,7 @@ export function IntakeForm({ onResult }: IntakeFormProps) {
 
     const validationError = clientSideError(form);
     if (validationError) {
-      setError(validationError);
+      fail(validationError);
       return;
     }
 
@@ -88,7 +108,7 @@ export function IntakeForm({ onResult }: IntakeFormProps) {
       const response = await submitIntake(submission);
       onResult(response);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Something went wrong analyzing the intake. Please try again.");
+      fail(err instanceof ApiError ? err.message : "Something went wrong analyzing the intake. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -182,8 +202,9 @@ export function IntakeForm({ onResult }: IntakeFormProps) {
 
       {error && (
         <div
+          ref={alertRef}
           role="alert"
-          className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/5 px-3 py-2 text-sm text-destructive"
+          className="t-shake flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/5 px-3 py-2 text-sm text-destructive"
         >
           <AlertCircle className="mt-0.5 size-4 shrink-0" />
           <span>{error}</span>

@@ -39,8 +39,6 @@ jobs:
       # shell so client-side routes (e.g. /app) work on hard refresh.
       - run: cp dist/index.html dist/404.html
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/dist

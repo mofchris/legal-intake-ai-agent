@@ -5,6 +5,9 @@ prospective client submits an inquiry and the app classifies the matter,
 extracts structured fields, flags urgency, screens statute-of-limitations risk,
 lists what's missing, and drafts a follow-up email.
 
+**▶ Live demo: https://mofchris.github.io/legal-intake-ai-agent/**
+(runs in demo mode — a deterministic local analyzer, no backend or API key required)
+
 > Portfolio demo. It performs administrative intake screening only and does not
 > provide legal advice. Use fake / demo data.
 

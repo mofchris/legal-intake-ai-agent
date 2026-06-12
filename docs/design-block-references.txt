@@ -1,0 +1,63 @@
+Install the @efferd/hero-2 block into this project.
+
+Steps:
+1. Install the shadcn skill if missing: npx skills add shadcn/ui
+2. Ensure this is a shadcn project (has components.json). If not, run: npx shadcn@latest init
+3. Add the @efferd registry to components.json (if missing):
+{
+  "registries": {
+    "@efferd": "https://efferd.com/r/{style}/{name}.json"
+  }
+}
+4. Run: npx shadcn@latest add @efferd/hero-2
+
+After install, summarize what was added and any next steps.
+
+then use this as reference for the auth page 
+Install the @efferd/auth-5 block into this project.
+
+Steps:
+1. Install the shadcn skill if missing: npx skills add shadcn/ui
+2. Ensure this is a shadcn project (has components.json). If not, run: npx shadcn@latest init
+3. Add the @efferd registry to components.json (if missing):
+{
+  "registries": {
+    "@efferd": "https://efferd.com/r/{style}/{name}.json"
+  }
+}
+4. Run: npx shadcn@latest add @efferd/auth-5
+
+After install, summarize what was added and any next steps.
+
+use this as reference for the footer 
+Install the @efferd/footer-3 block into this project.
+
+Steps:
+1. Install the shadcn skill if missing: npx skills add shadcn/ui
+2. Ensure this is a shadcn project (has components.json). If not, run: npx shadcn@latest init
+3. Add the @efferd registry to components.json (if missing):
+{
+  "registries": {
+    "@efferd": "https://efferd.com/r/{style}/{name}.json"
+  }
+}
+4. Run: npx shadcn@latest add @efferd/footer-3
+
+After install, summarize what was added and any next steps.
+
+
+this as reference for the call to action 
+Install the @efferd/cta-3 block into this project.
+
+Steps:
+1. Install the shadcn skill if missing: npx skills add shadcn/ui
+2. Ensure this is a shadcn project (has components.json). If not, run: npx shadcn@latest init
+3. Add the @efferd registry to components.json (if missing):
+{
+  "registries": {
+    "@efferd": "https://efferd.com/r/{style}/{name}.json"
+  }
+}
+4. Run: npx shadcn@latest add @efferd/cta-3
+
+After install, summarize what was added and any next steps.

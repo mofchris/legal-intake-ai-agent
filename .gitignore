@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Builds
+dist/
+build/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python (backend)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+data/*.sqlite3
+logs/*.jsonl
+
+# Local-only working notes (not for publication)
+*.local.md
+
+# Editor / OS / tooling
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.agents/
+.gstack/
+.claude/
+skills-lock.json

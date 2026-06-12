@@ -100,3 +100,24 @@ VITE_API_URL=http://localhost:8000
 ```
 
 The SPA will call the live endpoints instead of its built-in demo analyzer.
+
+## Deploy to Render
+
+A [`render.yaml`](../render.yaml) blueprint is included. One-click:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/mofchris/legal-intake-ai-agent)
+
+Or: Render dashboard → **New → Blueprint** → select this repo. When prompted,
+set **`OPENAI_API_KEY`** (the one secret; everything else has defaults). The
+service builds from `backend/` and starts with
+`uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
+
+Notes:
+- **Free tier** spins down after ~15 min idle; the first request then takes
+  ~30–60s to wake (cold start).
+- The free tier has **no persistent disk**, so the SQLite file resets on each
+  deploy/restart. Fine for a demo; add a paid disk for durable storage.
+- To run without a key, set `DEMO_MODE=true` in the Render dashboard instead of
+  providing `OPENAI_API_KEY`.
+- After deploy, the API root and Swagger docs live at `https://<service>.onrender.com/`
+  and `/docs`.

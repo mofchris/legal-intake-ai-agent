@@ -247,15 +247,15 @@ def post_process(analysis: IntakeAnalysis, submission: IntakeSubmission, *, toda
     keywords = detect_high_urgency_keywords(text)
     date_risk = statute_risk_for_date(submission.incident_date, today=today)
 
-    # Statute risk: never weaker than the date-based screening says.
+    # Statute risk: never weaker than the date-based screening says. When the
+    # date is missing/future (date_risk == "unknown") we keep the model's value.
     risk = analysis.statute_of_limitations_risk
     if date_risk == "high":
         risk = "high"
-    elif date_risk == "medium" and risk in ("low",):
+    elif date_risk == "medium" and risk in ("low", "unknown"):
         risk = "medium"
-    elif parse_incident_date(submission.incident_date) is None and risk != "unknown":
-        # Missing/unparseable date should screen as unknown.
-        risk = "unknown" if date_risk == "unknown" else risk
+    elif date_risk == "low" and risk == "unknown":
+        risk = "low"
 
     # Urgency: never lower than keyword/date/case-type evidence implies.
     urgency = analysis.urgency_level
@@ -267,10 +267,27 @@ def post_process(analysis: IntakeAnalysis, submission: IntakeSubmission, *, toda
     # Merge safe-default missing-info items without duplicates.
     merged_missing = list(dict.fromkeys([*analysis.missing_information, *default_missing_information(submission, analysis.case_type)]))
 
+    # Guard the follow-up email: if the model returned an empty value or a bare
+    # email address (it sometimes misreads the field name), use the template.
+    follow_up = analysis.client_follow_up_email
+    if _looks_like_bad_email_body(follow_up):
+        follow_up = _follow_up_email(submission, _CASE_LABELS[analysis.case_type])
+
     return analysis.model_copy(
         update={
             "statute_of_limitations_risk": risk,
             "urgency_level": urgency,
             "missing_information": merged_missing,
+            "client_follow_up_email": follow_up,
         }
     )
+
+
+def _looks_like_bad_email_body(value: str) -> bool:
+    text = (value or "").strip()
+    if len(text) < 40:
+        return True
+    # A bare email address: contains '@', no spaces, single line.
+    if "@" in text and " " not in text and "\n" not in text:
+        return True
+    return False

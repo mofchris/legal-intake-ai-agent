@@ -50,8 +50,8 @@ SCHEMA_HINT = """Return a JSON object with exactly these keys:
   "statute_of_limitations_risk": "low | medium | high | unknown",
   "missing_information": ["string"],
   "recommended_next_step": "string",
-  "client_follow_up_email": "string",
+  "client_follow_up_email": "string — the COMPLETE body of a follow-up email to send TO the client (greeting, a short message, and a sign-off). This is email TEXT, never an email address.",
   "internal_summary": "string",
   "analysis_summary": "string"
 }
-The analysis_summary is a short, business-friendly explanation of why the case was classified that way. Do not include hidden chain-of-thought."""
+The analysis_summary is a short, business-friendly explanation of why the case was classified that way. Do not include hidden chain-of-thought. The client_follow_up_email must be a complete, polite email body addressed to the client; it must not promise outcomes or give legal advice."""

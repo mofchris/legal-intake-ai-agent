@@ -7,9 +7,9 @@ import { Footer } from "@/components/footer";
 export function LandingPage() {
   return (
     <div className="min-h-svh bg-background">
-      <div className="px-2 pt-2 md:px-0">
-        <Header />
-      </div>
+      {/* Header is a direct child of the full-height container so `position: sticky`
+          has room to travel (a short wrapper would clip it on the first scroll). */}
+      <Header />
       <main>
         <HeroSection />
         <FeaturesSection />

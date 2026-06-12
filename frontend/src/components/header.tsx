@@ -5,6 +5,7 @@ import { Logo } from "@/components/logo";
 import { useScroll } from "@/hooks/use-scroll";
 import { Button } from "@/components/ui/button";
 import { MobileNav } from "@/components/mobile-nav";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const navLinks = [
   {
@@ -53,14 +54,15 @@ export function Header() {
               </Button>
             ))}
           </div>
-          <Button asChild size="sm" variant="outline">
-            <Link to="/auth">Sign In</Link>
-          </Button>
+          <ThemeToggle />
           <Button asChild size="sm">
             <Link to="/app">Get Started</Link>
           </Button>
         </div>
-        <MobileNav />
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <MobileNav />
+        </div>
       </nav>
     </header>
   );

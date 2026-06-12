@@ -146,7 +146,7 @@ government vehicle, commercial truck / defendant, and similar.
 ## Implementation status
 
 - [x] Frontend SPA (landing, auth, intake app) with demo-mode analyzer.
-- [ ] FastAPI backend implementing the contract above.
-- [ ] OpenAI integration with structured outputs.
-- [ ] SQLite storage, audit logging, Slack/Airtable integrations.
-- [ ] Test suite and evaluation script.
+- [x] FastAPI backend implementing the contract above (`backend/`).
+- [x] OpenAI integration (JSON-mode) with a deterministic demo fallback.
+- [x] SQLite storage, audit logging (PII redaction), Slack/Airtable integrations.
+- [x] Test suite (41 tests) and a classification evaluation script.

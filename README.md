@@ -34,13 +34,15 @@ lists what's missing, and drafts a follow-up email.
 - Tailwind CSS v4 + shadcn/ui (Radix), Geist font
 - React Router
 
-**Backend (specified, not yet implemented):**
+**Backend (`backend/`):**
 - Python 3.11+, FastAPI, Uvicorn
-- OpenAI Python SDK (structured outputs)
-- Pydantic, SQLite, JSONL audit logs
+- OpenAI Python SDK (JSON-mode structured output) with a deterministic demo fallback
+- Pydantic, SQLite, JSONL audit logs with PII redaction
 - Optional Slack webhook + Airtable
+- pytest suite (41 tests) + a classification evaluation script
 
-See [`docs/SPECIFICATION.md`](docs/SPECIFICATION.md) for the full contract.
+See [`docs/SPECIFICATION.md`](docs/SPECIFICATION.md) for the full contract and
+[`backend/README.md`](backend/README.md) to run it.
 
 ## Architecture
 
@@ -63,13 +65,13 @@ The frontend runs in two modes:
 
 ```
 .
-├── frontend/          # Vite + React SPA  (built)
-├── docs/
-│   ├── SPECIFICATION.md          # frontend/backend contract
-│   ├── design-block-references.txt
-│   ├── wireframes.html
-│   └── images/
-└── backend/           # FastAPI service  (planned — see SPECIFICATION.md)
+├── frontend/          # Vite + React SPA
+├── backend/           # FastAPI service (OpenAI + SQLite + audit log)
+└── docs/
+    ├── SPECIFICATION.md          # frontend/backend contract
+    ├── design-block-references.txt
+    ├── wireframes.html
+    └── images/
 ```
 
 ## Run the frontend
@@ -102,14 +104,30 @@ VITE_API_URL=http://localhost:8000
 | `/auth` | Sign in / sign up |
 | `/app` | The intake tool (form, AI analysis, recent intakes) |
 
+## Run the backend
+
+```bash
+cd backend
+python -m venv .venv && .venv/Scripts/activate   # use source .venv/bin/activate on macOS/Linux
+pip install -r requirements.txt
+cp .env.example .env          # set OPENAI_API_KEY, or DEMO_MODE=true
+uvicorn app.main:app --reload # http://127.0.0.1:8000  (docs at /docs)
+pytest                        # run the test suite
+python scripts/evaluate_cases.py
+```
+
+Then point the frontend at it with `VITE_API_URL=http://localhost:8000` in
+`frontend/.env`.
+
 ## Roadmap
 
 - [x] Frontend SPA with demo-mode analyzer
-- [ ] FastAPI backend per `docs/SPECIFICATION.md`
-- [ ] OpenAI structured-output integration
-- [ ] SQLite storage + JSONL audit logging
-- [ ] Slack + Airtable integrations
-- [ ] Test suite + classification evaluation script
+- [x] FastAPI backend per `docs/SPECIFICATION.md`
+- [x] OpenAI structured-output integration (with demo fallback)
+- [x] SQLite storage + JSONL audit logging
+- [x] Slack + Airtable integrations
+- [x] Test suite + classification evaluation script
+- [ ] Live deployment (Render / Railway + static host)
 
 ## Safety
 

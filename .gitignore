@@ -19,8 +19,11 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
-data/*.sqlite3
-logs/*.jsonl
+
+# Generated data / logs (anywhere in the tree)
+*.sqlite3
+*.jsonl
+**/data/evaluation_results.json
 
 # Local-only working notes (not for publication)
 *.local.md
